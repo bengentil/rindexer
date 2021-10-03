@@ -1,0 +1,11 @@
+FROM docker.io/rustembedded/cross:armv7-unknown-linux-musleabihf-0.2.1
+
+ENV SQLITE_VER="3320300"
+
+RUN curl -sSL https://www.sqlite.org/2020/sqlite-autoconf-$SQLITE_VER.tar.gz | tar xz && \
+    cd sqlite-autoconf-$SQLITE_VER && \
+    CFLAGS="-DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_SECURE_DELETE -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_RTREE -DSQLITE_USE_URI -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_JSON1" \
+    CC="arm-linux-musleabihf-gcc -fPIC -pie" \
+    ./configure --prefix=/usr/local/arm-linux-musleabihf  --host=armv7-unknown-linux-musleabihf --enable-threadsafe --enable-dynamic-extensions --disable-shared && \
+    make && make install && \
+    cd .. && rm -rf sqlite-autoconf-$SQLITE_VER
