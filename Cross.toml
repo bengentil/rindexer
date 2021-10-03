@@ -1,0 +1,2 @@
+[target.armv7-unknown-linux-musleabihf]
+image = "docker.io/rustembedded/cross:armv7-unknown-linux-musleabihf-0.2.1-sqlite"
